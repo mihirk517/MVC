@@ -1,21 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MVC.DataAccess.Data;
 using MVC.DataAccess.Repository.IRepository;
+using MVC.DataAccess.Utilities;
 using MVC.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MVC.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepo;
-        public CategoryController(ICategoryRepository categoryRepo)
+        private readonly IUnitOfWork _unitOfWork;
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _categoryRepo = categoryRepo;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            List<Category> data = _categoryRepo.GetAll().ToList();
+            List<Category> data = _unitOfWork.CategoryRepository.GetAll().ToList();
             //List<Category> data = _databaseContext.categories.ToList();
             return View(data);
         }
@@ -25,7 +28,7 @@ namespace MVC.Controllers
             {
                 return NotFound();
             }
-            Category? Item = _categoryRepo.Get(x => x.Id == id);
+            Category? Item = _unitOfWork.CategoryRepository.Get(x => x.Id == id);
             //Category? Item = _databaseContext.categories.FirstOrDefault(x => x.Id == id);
             if (Item == null)
             {
@@ -38,8 +41,8 @@ namespace MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _categoryRepo.Update(data); 
-                _categoryRepo.Save();
+                _unitOfWork.CategoryRepository.Update(data);
+                _unitOfWork.Save();
                 //_databaseContext.Update(data);
                 //_databaseContext.SaveChanges();
                 TempData["success"] = $"Category {data.Name} edited successfully";
@@ -54,7 +57,7 @@ namespace MVC.Controllers
             {
                 return NotFound();
             }
-            Category? Item = _categoryRepo.Get(x => x.Id == id);
+            Category? Item = _unitOfWork.CategoryRepository.Get(x => x.Id == id);
             //Category? Item = _databaseContext.categories.FirstOrDefault(x => x.Id == id);
             if (Item == null)
             {
@@ -65,14 +68,14 @@ namespace MVC.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
-            Category? Item = _categoryRepo.Get(x => x.Id == id);
+            Category? Item = _unitOfWork.CategoryRepository.Get(x => x.Id == id);
             //Category? Item = _databaseContext.categories.FirstOrDefault(x => x.Id == id);
             if (Item == null)
             {
                 return NotFound();
             }
-            _categoryRepo.Remove(Item);
-            _categoryRepo.Save();
+            _unitOfWork.CategoryRepository.Remove(Item);
+            _unitOfWork.Save();
             //_databaseContext.Remove(Item);
             //_databaseContext.SaveChanges();
             TempData["success"] = $"Category {Item.Name} deleted successfully";
@@ -89,8 +92,8 @@ namespace MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _categoryRepo.Add(data);
-                _categoryRepo.Save();
+                _unitOfWork.CategoryRepository.Add(data);
+                _unitOfWork.Save();
                 //_databaseContext.AddAsync(data);
                 //_databaseContext.SaveChanges();
                 TempData["success"] = $"Category {data.Name} created successfully";
