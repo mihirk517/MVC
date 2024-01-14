@@ -12,7 +12,7 @@ The application also makes use of ASP. NET Core's **Identity framework** to add 
  * Admin
 	The persona which can create the Catalog via Add/Delete/Remove entries, can create genres or catagories as well as view Catalog
 
-### -- Architecture 
+# -- Architecture 
 
 ## N - Tier Architecture
 
