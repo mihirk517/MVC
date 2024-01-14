@@ -5,14 +5,14 @@ Admins can meanwhile add/remove/edit the catalog as well as edit genres.
 
 ## -- Built with ASP.Net Core's MVC Framework
 The Application is created as using ASP.NET Core's MVC framework as well as Razor Pages. It uses Entity Framework Core or EFCore as the ORM and SQL Server as the Database.
-The application also makes use of ASP. NET Core's **Identity framework** to add **Roles*** and **Identities** for Authorization. Thus the App has currently two personas :
+The application also makes use of ASP. NET Core's **Identity framework** to add **Roles** and **Identities** for Authorization. Thus the App has currently two personas :
  * User 
 	The persona which as read-only access and can view the Catalog and Add it to a cart (in later iterations)
 
  * Admin
 	The persona which can create the Catalog via Add/Delete/Remove entries, can create genres or catagories as well as view Catalog
 
-## -- Architecture 
+### -- Architecture 
 
 ## N - Tier Architecture
 
@@ -34,7 +34,10 @@ The App follows an N-Tier Architecture pattern and thus segregates the functiona
 
 The following video shows the application from a user's perspective to view the Catalog and the details of the selection. It also shows the Admin's perspective in which he can add/remove items in the Catalog manipulate genres.
 
+https://github.com/mihirk517/MVC/assets/50024720/a366e458-e999-4d75-80c0-cda5eebf9ae8
 
 This video shows the SQL Database when the items have been changed.
+
+https://github.com/mihirk517/MVC/assets/50024720/dd39da47-9460-44f2-aa70-868f1584cdc0
 
 
