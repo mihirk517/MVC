@@ -10,6 +10,17 @@
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DockerfileContext>.</DockerfileContext>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="MVC_DataAccess\**" />
+	  <Compile Remove="MVC_Models\**" />
+	  <Content Remove="MVC_DataAccess\**" />
+	  <Content Remove="MVC_Models\**" />
+	  <EmbeddedResource Remove="MVC_DataAccess\**" />
+	  <EmbeddedResource Remove="MVC_Models\**" />
+	  <None Remove="MVC_DataAccess\**" />
+	  <None Remove="MVC_Models\**" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />

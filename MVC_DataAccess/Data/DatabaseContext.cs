@@ -16,10 +16,14 @@ namespace MVC.DataAccess.Data
         }
         public DbSet<Category> categories { get; set; }
         public DbSet<Product> products { get; set; }
+        public DbSet<ShoppingCart> shoppingCarts { get; set; }
+        public DbSet<OrderHeader> orderHeaders { get; set; }
+		public DbSet<OrderDetail> orderDetail { get; set; }
 
 
-        //Seed values in tables
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+		//Seed values in tables
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Category>().HasData(

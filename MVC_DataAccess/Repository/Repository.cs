@@ -30,24 +30,44 @@ namespace MVC.DataAccess.Repository
         /// <param name="filter"></param>
         /// <param name="includeprops"></param>
         /// <returns></returns>
-        T IRepository<T>.Get(Expression<Func<T, bool>> filter, string? includeprops = null)
+        T IRepository<T>.Get(Expression<Func<T, bool>> filter, string? includeprops = null, bool tracked = false)
         {
-            IQueryable<T> query = dbSet;
-            query = query.Where(filter);
-            if (!string.IsNullOrEmpty(includeprops))
+            if(tracked)
             {
-                foreach (var props in includeprops.Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
+                IQueryable<T> query = dbSet;
+                query = query.Where(filter);
+                if (!string.IsNullOrEmpty(includeprops))
                 {
-                    query = query.Include(props);
+                    foreach (var props in includeprops.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        query = query.Include(props);
+                    }
                 }
+                return query.FirstOrDefault();
             }
-            
-            return query.FirstOrDefault();
+            else
+            {
+                IQueryable<T> query = dbSet.AsNoTracking();
+                query = query.Where(filter);
+                if (!string.IsNullOrEmpty(includeprops))
+                {
+                    foreach (var props in includeprops.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        query = query.Include(props);
+                    }
+                }
+                return query.FirstOrDefault();
+            }
+
+
+
         }
 
-        IEnumerable<T> IRepository<T>.GetAll(string? includeprops = null)
+        IEnumerable<T> IRepository<T>.GetAll(Expression<Func<T, bool>>? filter, string? includeprops = null)
         {
             IQueryable<T> query = dbSet;
+            if(filter != null) query = query.Where(filter); 
+            
             if (!string.IsNullOrEmpty(includeprops))
             {
                 foreach (var props in includeprops.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))

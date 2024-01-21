@@ -9,6 +9,7 @@ using MVC.DataAccess.Repository;
 using Microsoft.AspNetCore.Identity;
 using MVC.DataAccess.Utilities;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using MVC.DataAccess.Data.DBInitializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = $"/Identity/Account/Logout";
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
-
+builder.Services.AddScoped<IDBInitializer,DBInitializer>();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
@@ -46,9 +47,19 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+seedDatabase();
 app.MapRazorPages();
 app.MapControllerRoute(
 name: "default",
 pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+void seedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        IDBInitializer dBInitializer = scope.ServiceProvider.GetRequiredService<IDBInitializer>();
+        dBInitializer.Initialize().GetAwaiter().GetResult();
+    }
+}

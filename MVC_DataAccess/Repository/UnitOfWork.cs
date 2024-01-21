@@ -12,13 +12,21 @@ namespace MVC.DataAccess.Repository
     {
         private readonly DatabaseContext _dbContext;
         public ICategoryRepository CategoryRepository { get; private set; }
-
+        public IShoppingCartRepository ShoppingCartRepository { get; private set; }
         public IProductRepository ProductRepository { get; private set; }
-        public UnitOfWork(DatabaseContext dbContext)
+
+		public IOrderHeaderRepository OrderHeaderRepository { get; private set; }
+
+		public IOrderDetailRepository OrderDetailRepository { get; private set; }
+
+		public UnitOfWork(DatabaseContext dbContext)
         {
             _dbContext = dbContext;
             CategoryRepository = new CategoryRepository(_dbContext);
             ProductRepository = new ProductRepository(_dbContext);
+            ShoppingCartRepository = new ShoppingCartRepository(_dbContext);
+            OrderHeaderRepository = new OrderHeaderRepository(_dbContext);
+            OrderDetailRepository = new OrderDetailRepository(_dbContext);
         }
    
 

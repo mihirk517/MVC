@@ -10,6 +10,9 @@ namespace MVC.DataAccess.Repository.IRepository
     {
         public ICategoryRepository CategoryRepository { get; }
         public IProductRepository ProductRepository { get; }
+        public IShoppingCartRepository ShoppingCartRepository { get; }
+        public IOrderHeaderRepository OrderHeaderRepository { get; }
+        public IOrderDetailRepository OrderDetailRepository { get; }
         public void Save();
     }
 }
